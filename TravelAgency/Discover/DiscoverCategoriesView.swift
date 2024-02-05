@@ -22,7 +22,7 @@ struct DiscoverCategoriesView: View {
             HStack(alignment: .top, spacing: 14){
                 ForEach(categories, id: \.self) { category in
                     NavigationLink {
-                        Text("ddd")
+                        CategoryDetailsView()
                     } label: {
                         VStack{
                             Image(systemName: category.imageName)
@@ -31,13 +31,13 @@ struct DiscoverCategoriesView: View {
                                 .frame(width: 64, height: 64)
                                 .background(.white)
                                 .clipShape(Circle())
-             
+                            
                             Text(category.name)
                                 .font(.system(size: 12, weight: .semibold))
                         } .frame(width: 68)
-
-                    }
-
+                        
+                    }.buttonStyle(PlainButtonStyle())
+                    
                 }
                 
             }
@@ -48,27 +48,79 @@ struct DiscoverCategoriesView: View {
     }
 }
 
-
-struct CategoryDetailsView: View {
-    var body: some View {
+@Observable
+class UserInterface {
+    var isLoading = true
+    var places = [Int]()
+    init(){
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { self.isLoading = false
+            self.places = [1,2,3,4,5,6]
+        }
         
-        ScrollView{
-            
-            Text("Demo")
-        }.navigationTitle("Category")
     }
 }
-#Preview {
+
+struct ActivityIndicatorView: UIViewRepresentable {
+    func makeUIView(context: Context) -> UIActivityIndicatorView {
+        let aiv = UIActivityIndicatorView(style: .large)
+        aiv.startAnimating()
+        
+        return aiv
+    }
     
-    DiscoverView()
+    func updateUIView(_ uiView: UIActivityIndicatorView, context: Context) {
+        
+    }
+    
+    typealias UIViewType = UIActivityIndicatorView
+}
+
+struct CategoryDetailsView: View {
+    @State var vm = UserInterface()
+    
+    var body: some View {
+        ZStack{
+            if  vm.isLoading{
+                VStack {
+                    ActivityIndicatorView()
+                    Text("Currently Loading")
+                        .font(.system(size: 16, weight: .semibold))
+                }.background(.white)
+            } else {
+                ZStack{
+                    NavigationStack{
+                        ScrollView{
+                            ForEach(vm.places, id: \.self) {num in
+                                
+                                VStack(alignment: . leading, spacing: 0){
+                                    Image("scotland")
+                                        .resizable()
+                                        .aspectRatio(0.9, contentMode: .fill)
+                                    
+                                    Text("Demo")
+                                        .font(.system(size: 12, weight: .semibold))
+                                        .padding()
+                                }
+                                .asTile()
+                                .padding()
+                            }
+                        }
+                    }
+                }.navigationBarTitleDisplayMode(.inline)
+                    .navigationTitle("Category")
+            }
+        }
+    }}
+#Preview {
+    CategoryDetailsView()
 }
 
 
 //NavigationStack{
-  //  NavigationLink {
-    //    Text("jogn")
-  //  } label: {
-     //   Text("paul")
-   // }
+//  NavigationLink {
+//    Text("jogn")
+//  } label: {
+//   Text("paul")
+// }
 
 //}
