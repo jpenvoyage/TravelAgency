@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
+    
     var body: some View {
         NavigationStack {
             ScrollView{
@@ -20,6 +21,12 @@ struct ContentView: View {
         }
     }
 }
+
+struct Destinations: Hashable {
+    let city, country: String
+    let landscape: String
+}
+
 struct PopularDestinationsView: View {
     
     let destinations: [Destinations] = [
@@ -79,7 +86,19 @@ struct PopularDestinationsView: View {
     }
 }
 
+struct User: Hashable {
+    let name, imageName: String
+}
+
 struct TrendingCreatorsView: View {
+    
+    let users: [User] = [
+        .init(name: "Joao", imageName: "jao"),
+            .init(name: "Joao Paulo", imageName: "jao"),
+            .init(name: "Joao Leal", imageName: "jao")
+    
+    ]
+    
     var body: some View {
         VStack {
             HStack{
@@ -92,12 +111,21 @@ struct TrendingCreatorsView: View {
             .padding(.top)
             
             ScrollView(.horizontal) {
-                HStack(spacing: 5){
-                    ForEach(0..<15, id: \.self) { num in
-                        Spacer()
-                            .frame(width: 50, height: 50)
-                            .background(.gray)
-                            .clipShape(Circle())
+                HStack(alignment: .top, spacing: 12){
+                    ForEach(users, id: \.self) { user in
+                        
+                        VStack{
+                            Image(user.imageName)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 60, height: 60)
+                                .clipShape(Circle())
+                            
+                            Text(user.name)
+                                .font(.system(size: 12, weight: .semibold))
+                                .multilineTextAlignment(.center)
+                        }
+                        .frame(width: 60)
                             .shadow(color: .gray, radius: 5, x: 0.0, y:2)
                             .padding(.bottom)
                     }
@@ -108,17 +136,26 @@ struct TrendingCreatorsView: View {
 }
 
 
+
+
+#Preview {
+    ContentView()
+}
+
+
 struct Restaurant: Hashable {
     let name, imageName: String
 }
 
 
 struct PopularRestaurantsView: View {
+    
     let restaurants: [Restaurant] = [
         .init(name: "Japan's Finest Tapas", imageName: "pub"),
-        
-            .init(name: "Japan's Finest Tapas", imageName: "Tapas")
+        .init(name: "dn's Finest Tapas", imageName: "Tapas")
     ]
+    
+    
     
     var body: some View {
         VStack {
@@ -132,9 +169,10 @@ struct PopularRestaurantsView: View {
             .padding(.top)
             
             ScrollView(.horizontal) {
-                HStack(spacing: 5){
+                HStack{
                     ForEach(restaurants, id: \.self) { restaurant in
-                        HStack(spacing: 8){
+                        
+                        HStack{
                             Image(restaurant.imageName)
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
@@ -148,9 +186,14 @@ struct PopularRestaurantsView: View {
                             VStack(alignment: .leading, spacing: 4)                      {
                                 
                                 HStack{
-                                    Text("Japan's Finest Tapas")
+                                    Text(restaurant.name)
                                     Spacer()
-                                    Image(systemName: "ellipsis")
+                                    Button{
+                                        //
+                                    } label: {
+                                        Image(systemName: "ellipsis")
+                                    }
+                                    
                                 }
                                 HStack{
                                     Image(systemName: "star.fill")
@@ -176,19 +219,25 @@ struct PopularRestaurantsView: View {
     }
 }
 
-#Preview {
-    ContentView()
-}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 struct Category: Hashable {
     let name, imageName: String
 }
 
-struct Destinations: Hashable {
-    let city, country: String
-    let landscape: String
-}
+
 
 struct DiscoverCategoriesView: View {
     
