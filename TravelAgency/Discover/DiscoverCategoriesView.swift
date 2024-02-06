@@ -7,9 +7,14 @@
 
 import SwiftUI
 
+struct Category2: Hashable {
+    let name, imageName: String
+}
+
+
 struct DiscoverCategoriesView: View {
     
-    let categories: [Category] = [
+    let categories: [Category2] = [
         .init(name: "Art", imageName: "paintpalette.fill"),
         .init(name: "Sport", imageName: "sportscourt.fill"),
         .init(name: "Live Events", imageName: "music.mic"),
@@ -48,17 +53,16 @@ struct DiscoverCategoriesView: View {
     }
 }
 
-@Observable
-class UserInterface {
-    var isLoading = true
-    var places = [Int]()
-    init(){
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { self.isLoading = false
-            self.places = [1,2,3,4,5,6]
-        }
-        
-    }
-}
+
+
+
+
+
+
+
+
+
+
 
 struct ActivityIndicatorView: UIViewRepresentable {
     func makeUIView(context: Context) -> UIActivityIndicatorView {
@@ -80,13 +84,13 @@ struct CategoryDetailsView: View {
     
     var body: some View {
         ZStack{
-            if  vm.isLoading{
+           // if  vm.isLoading{
                 VStack {
                     ActivityIndicatorView()
                     Text("Currently Loading")
                         .font(.system(size: 16, weight: .semibold))
                 }.background(.white)
-            } else {
+           // } else {
                 ZStack{
                     NavigationStack{
                         ScrollView{
@@ -97,13 +101,16 @@ struct CategoryDetailsView: View {
                                         .resizable()
                                         .aspectRatio(0.9, contentMode: .fill)
                                     
-                                    Text("Demo")
+                                    Text(num.name)
                                         .font(.system(size: 12, weight: .semibold))
                                         .padding()
-                                }
+                                
                                 .asTile()
                                 .padding()
                             }
+                        }
+                        .onAppear{
+                            vm.fetchData()
                         }
                     }
                 }.navigationBarTitleDisplayMode(.inline)
