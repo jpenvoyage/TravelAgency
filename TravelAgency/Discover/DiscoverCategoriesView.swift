@@ -7,9 +7,7 @@
 
 import SwiftUI
 
-struct Category2: Hashable {
-    let name, imageName: String
-}
+
 
 
 struct DiscoverCategoriesView: View {
@@ -27,7 +25,7 @@ struct DiscoverCategoriesView: View {
             HStack(alignment: .top, spacing: 14){
                 ForEach(categories, id: \.self) { category in
                     NavigationLink {
-                        CategoryDetailsView()
+                        CategoryDetailView()
                     } label: {
                         VStack{
                             Image(systemName: category.imageName)
@@ -64,62 +62,11 @@ struct DiscoverCategoriesView: View {
 
 
 
-struct ActivityIndicatorView: UIViewRepresentable {
-    func makeUIView(context: Context) -> UIActivityIndicatorView {
-        let aiv = UIActivityIndicatorView(style: .large)
-        aiv.startAnimating()
-        
-        return aiv
-    }
-    
-    func updateUIView(_ uiView: UIActivityIndicatorView, context: Context) {
-        
-    }
-    
-    typealias UIViewType = UIActivityIndicatorView
-}
 
-struct CategoryDetailsView: View {
-    @State var vm = UserInterface()
-    
-    var body: some View {
-        ZStack{
-           // if  vm.isLoading{
-                VStack {
-                    ActivityIndicatorView()
-                    Text("Currently Loading")
-                        .font(.system(size: 16, weight: .semibold))
-                }.background(.white)
-           // } else {
-                ZStack{
-                    NavigationStack{
-                        ScrollView{
-                            ForEach(vm.places, id: \.self) {num in
-                                
-                                VStack(alignment: . leading, spacing: 0){
-                                    Image("scotland")
-                                        .resizable()
-                                        .aspectRatio(0.9, contentMode: .fill)
-                                    
-                                    Text(num.name)
-                                        .font(.system(size: 12, weight: .semibold))
-                                        .padding()
-                                
-                                .asTile()
-                                .padding()
-                            }
-                        }
-                        .onAppear{
-                            vm.fetchData()
-                        }
-                    }
-                }.navigationBarTitleDisplayMode(.inline)
-                    .navigationTitle("Category")
-            }
-        }
-    }}
+
+
 #Preview {
-    CategoryDetailsView()
+    CategoryDetailView()
 }
 
 
