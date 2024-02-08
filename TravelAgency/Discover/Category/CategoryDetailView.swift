@@ -9,7 +9,14 @@ import Kingfisher
 import SDWebImageSwiftUI
 
 struct CategoryDetailView: View {
-    @State var vm = UserInterface()
+    private let name: String
+    @State var vm: UserInterface
+
+    init(name: String) {
+        print("loaded")
+        self.name = name
+        self.vm = .init(name: name)
+    }
     
     var body: some View {
         ZStack{
@@ -40,15 +47,14 @@ struct CategoryDetailView: View {
                                 .asTile()
                                 .padding()
                         }
-                        .onAppear{
-                            vm.fetchData()
+                        
                         }
                     }
                 }.navigationBarTitleDisplayMode(.inline)
-                    .navigationTitle("Category")
+                    .navigationTitle(name)
             }
         }
-    }}
+    }
 #Preview {
-    CategoryDetailView()
+    CategoryDetailView(name: "Art")
 }

@@ -20,8 +20,8 @@ class UserInterface {
    // var isLoading = true
     var places = [Category]()
     
-    func fetchData()  {
-        guard let url = URL(string: "https://travel.letsbuildthatapp.com/travel_discovery/category?name=art") else { return}
+    init(name: String) {
+        guard let url = URL(string: "https://travel.letsbuildthatapp.com/travel_discovery/category?name=\(name.lowercased())") else { return}
         
         let task = URLSession.shared.dataTask(with: url) { [weak self] data, _,
             error in guard let data = data, error == nil else{

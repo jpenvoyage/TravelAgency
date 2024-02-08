@@ -10,4 +10,5 @@ import Foundation
 struct Destinations: Hashable {
     let city, country: String
     let landscape: String
+    let latitude, longitude: Double
 }
